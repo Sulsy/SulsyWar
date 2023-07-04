@@ -9,7 +9,7 @@ namespace Core
     public class Tile : MonoBehaviour
     {
         private SpriteRenderer _renderer;
-        public Vector2 id;
+        public Vector2 positionTile;
         public TileData tileData;
         public void Initialization(TileData data)
         {
@@ -27,11 +27,7 @@ namespace Core
         private void OnMouseDown()
         {
             var controller = FindObjectOfType<GameController>();
-            var king = controller.activePlayer;
-            if (king!=null)    
-            { 
-                king.TileClick(id);
-            }
+            controller.TileClick(positionTile);
 
         }
     }

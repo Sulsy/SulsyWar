@@ -7,13 +7,12 @@ public class EntitySpawner : MonoBehaviour
 {
    [SerializeField] private GameObject prefab;
    public List<EntityData> entityDats;
-   public List<Entity> entities;
-   
-   public void CreateEntity(Tile tile,int entityDataId,Colors colors)
+
+   public Entity CreateEntity(Tile tile,int entityDataId,Colors colors,int id)
    {
       var entityGameObject=Instantiate(prefab);
       var entity = entityGameObject.GetComponent<Entity>();
-      entity.Initialization(entityDats[entityDataId],tile,colors,entities.Count);
-      entities.Add(entity);
+      entity.Initialization(entityDats[entityDataId],tile,colors,id);
+      return entity;
    }
 }
