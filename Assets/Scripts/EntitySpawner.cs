@@ -1,18 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
-   [SerializeField] private GameObject prefab;
-   public List<EntityData> entityDats;
+   public List<Entity> entityDats;
 
    public Entity CreateEntity(Tile tile,int entityDataId,Colors colors,int id)
    {
-      var entityGameObject=Instantiate(prefab);
-      var entity = entityGameObject.GetComponent<Entity>();
-      entity.Initialization(entityDats[entityDataId],tile,colors,id);
+      Debug.Log(entityDataId);
+
+      Entity entity = null;
+      var instantiate = Instantiate(entityDats[entityDataId]);
+      entity = entityDataId switch
+      {
+         0 => instantiate.GetComponent<Archer>(),
+         1 => instantiate.GetComponent<Entity>(),
+         _ => null
+      };
+
+      if (entity != null)
+      {
+         entity.Initialization(entityDats[entityDataId].Data, tile, colors, id);
+      }
       return entity;
+   }
+
+   public int GetEntityPrice(int typeEntity)
+   {
+      return entityDats[typeEntity].price;
    }
 }

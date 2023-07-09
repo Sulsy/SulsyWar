@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3116798224413828980}
   - component: {fileID: 5120404234959699878}
-  - component: {fileID: 7526794176893942673}
+  - component: {fileID: -1149207417830568016}
   m_Layer: 0
-  m_Name: Entity
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 194be2cedc3d8cb4383e22c8d9cbb9f0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8537636, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7526794176893942673
+--- !u!114 &-1149207417830568016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,13 +94,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4361779662251500831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499a7c7251717145b97b8957e9fda88, type: 3}
+  m_Script: {fileID: 11500000, guid: d4bf0cfe11821664d900ef381362214e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
+  Data: {fileID: 11400000, guid: 8f807123863af4b49941dc70347fef8e, type: 2}
   color: 0
   id: 0
   tile: {fileID: 0}
   moveDistance: []
+  attackDistance: []
   didAction: 0
   power: 0
+  distanceDamage: 1
+  price: 15

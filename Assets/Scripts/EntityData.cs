@@ -7,6 +7,5 @@ namespace Core
     {
         public Sprite sprite;
         public EntityType type;
-        public int level;
     }
 }

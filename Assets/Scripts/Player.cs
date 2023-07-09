@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public Colors color;
     public int playersId;
     public Entity entityMoved;
+    public int money;
 
     public void NewMove(List<Entity> entities)
     {
