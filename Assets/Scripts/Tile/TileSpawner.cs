@@ -13,23 +13,22 @@ namespace Core
         public Vector2 size;
         public float rowPositionCoefficient;
         private List<List<Tile>> _tiles;
-        
+
         public List<List<Tile>> Initialize()
         {
             _tiles = new List<List<Tile>>();
-            for (int i = 0; i < size.x; i++)
-            {
-                _tiles.Add(new List<Tile>());
-            }
 
             for (int i = 0; i < size.x; i++)
             {
+                _tiles.Add(new List<Tile>());
+                
                 for (int j = 0; j < size.y; j++)
                 {
-                    GetTilesList(i,j);
-                    FillTile(i,j,0);
-                    MoveTile(i,j);
+                    GetTilesList(i, j);
+                    FillTile(i, j, 0);
+                    MoveTile(i, j);
                 }
+
                 rowPositionCoefficient += 0.76f;
             }
 
@@ -37,22 +36,23 @@ namespace Core
             {
                 GenerateHomes(i);
             }
+
             return _tiles;
         }
 
-        private void GetTilesList(int row,int colum)
+        private void GetTilesList(int row, int colum)
         {
-            var tile = Instantiate(prefab);
+            var tile = Instantiate(prefab,transform);
             _tiles[row].Add(tile.GetComponent<Tile>());
-            _tiles[row][colum].positionTile = new Vector2(row, colum);
+            _tiles[row][colum].PositionTile = new Vector2(row, colum);
         }
-        
-        private void FillTile(int row,int colum,int colorType)
+
+        private void FillTile(int row, int colum, int colorType)
         {
             _tiles[row][colum].Initialization(tilesColor[colorType]);
         }
 
-        private void MoveTile(int row,int colum)
+        private void MoveTile(int row, int colum)
         {
             if (colum == 0)
             {
@@ -70,41 +70,41 @@ namespace Core
         {
             var start = new Vector2();
             var colorRadius = new List<Vector2>();
-            
+
             for (var i = 0; i < 7; i++)
             {
                 colorRadius.Add((new Vector2((start.x), (start.y))));
             }
-            
+
             while (true)
             {
-                var row = Random.Range(1,(int)size.x-2);
-                var colum = Random.Range(1,(int)size.y-2);
-                start = new Vector2(row,colum);
+                var row = Random.Range(1, (int)size.x - 2);
+                var colum = Random.Range(1, (int)size.y - 2);
+                start = new Vector2(row, colum);
 
-                colorRadius[0]=((new Vector2((start.x), (start.y))));
-                colorRadius[1]=((new Vector2((start.x + 1), (start.y))));
-                colorRadius[2]=((new Vector2((start.x - 1), (start.y))));
-                colorRadius[3]=((new Vector2((start.x), (start.y + 1))));
-                colorRadius[4]=((new Vector2((start.x), (start.y - 1))));
-                colorRadius[5]=((new Vector2((start.x - 1), (start.y + 1))));
-                colorRadius[6]=((new Vector2((start.x + 1), (start.y - 1))));
+                colorRadius[0] = ((new Vector2((start.x), (start.y))));
+                colorRadius[1] = ((new Vector2((start.x + 1), (start.y))));
+                colorRadius[2] = ((new Vector2((start.x - 1), (start.y))));
+                colorRadius[3] = ((new Vector2((start.x), (start.y + 1))));
+                colorRadius[4] = ((new Vector2((start.x), (start.y - 1))));
+                colorRadius[5] = ((new Vector2((start.x - 1), (start.y + 1))));
+                colorRadius[6] = ((new Vector2((start.x + 1), (start.y - 1))));
 
 
-                var index = colorRadius.Select(tileRadius => _tiles[(int)tileRadius.x][(int)tileRadius.y]).Count(tile => XColor.ToHexString(tile.tileData.color) == "FFFFFFFF");
+                var index = colorRadius.Select(tileRadius => _tiles[(int)tileRadius.x][(int)tileRadius.y])
+                    .Count(tile => XColor.ToHexString(tile.TileData.color) == "FFFFFFFF");
 
-                if (index>=7)
+                if (index >= 7)
                 {
-                    break;   
+                    Debug.Log("home: "+tileIndex);
+                    break;
                 }
             }
 
             for (var i = 0; i < colorRadius.Count; i++)
             {
-                FillTile((int)colorRadius[i].x,(int)colorRadius[i].y,tileIndex);
+                FillTile((int)colorRadius[i].x, (int)colorRadius[i].y, tileIndex);
             }
         }
-
     }
 }
-

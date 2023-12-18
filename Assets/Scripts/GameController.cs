@@ -26,6 +26,34 @@ public class GameController : MonoBehaviour
         _combatSimulator = new CombatSimulator(this);
 
     }
+    public void TileClick(Vector2 tilePosition)
+    {
+        var entityMoved = (Combatant)activePlayer.entityMoved;
+        var onTileCombatant = GetCombatant(tilePosition);
+
+        if (entityMoved!=null)
+        {
+
+            if (entityMoved is not { DidAction: false })
+            {
+                activePlayer.entityMoved = null;
+                return;
+            }
+            CombatantAction(tilePosition,onTileCombatant, entityMoved);
+            activePlayer.entityMoved = null;
+        }
+        else
+        {
+            if (onTileCombatant!=null)
+            {
+                CombatantActive(tilePosition,onTileCombatant);
+            }
+            else
+            {
+                CreateEntity(tilePosition, Random.Range(1, 2));
+            }
+        }
+    }
     private void CreateEntity(Vector2 tileId,int entityType)
     {
         entityMovedInfo.text = "";
@@ -39,26 +67,7 @@ public class GameController : MonoBehaviour
         if (!IsColorsSame(tile) || entity!=null) return;
         entity = entitySpawner.CreateEntity(tile, entityType, activePlayer.color, entities.Count);
         entities.Add(entity);
-        activePlayer.money -= entity.price;
-    }
-
-    public void TileClick(Vector2 tileId)
-    {
-        var entity = activePlayer.entityMoved;
-        var enemyEntity = GetEntity(tileId);
-        if (enemyEntity != null && entity == null)
-        {
-            EntityClick(tileId);
-            return;
-        }
-        if (entity is { didAction: false })
-        {
-            ActionEntity(tileId,enemyEntity, entity);
-            return;
-        }
-
-        CreateEntity(tileId,Random.Range(0,2));
-        
+        activePlayer.money -= entity.Price;
     }
 
     public void NextPlayer()
@@ -69,28 +78,37 @@ public class GameController : MonoBehaviour
             id = 0;
         }
         activePlayer = players[id];
-        activePlayer.NewMove(entities.FindAll(x=>x.color==activePlayer.color));
+        activePlayer.NewMove(entities.FindAll(x=>x.Color==activePlayer.color));
         foreach (var player in players)
         {
             player.entityMoved = null;
         }
     }
-    private void EntityClick(Vector2 tilePosition)
+    private void FactoryClick(Vector2 tilePosition)
     {
-        var entity = GetEntity(tilePosition);
-        if (activePlayer.color!=entity.color)return;
-        activePlayer.entityMoved =entity ;
-        entityMovedInfo.text = $"Entity id:{activePlayer.entityMoved.id} Entity power:{activePlayer.entityMoved.power} MovePoint:{activePlayer.entityMoved.didAction}";
-        entityMovedInfo.color = activePlayer.entityMoved.tile.tileData.color;
+        
     }
 
-    private void ActionEntity(Vector2 tileId,Entity enemyEntity,Entity playerEntity)
+    private void CombatantClick(Vector2 tilePosition)
+    {
+       
+    }
+
+    private void CombatantActive(Vector2 tilePosition,Combatant combatant)
+    {
+        if (activePlayer.color != combatant.Color) return;
+        activePlayer.entityMoved = combatant;
+        entityMovedInfo.text =
+            $"Entity id:{activePlayer.entityMoved.ID} Entity power:{combatant.Power} MovePoint:{combatant.DidAction}";
+    }
+
+    private void CombatantAction(Vector2 tileId,Combatant enemyEntity,Combatant playerEntity)
     {
         if (enemyEntity == null)
         {
             if (!IsColorsSame(playerEntity) || !IsEntityMoveDistance(playerEntity, tileId))return;
             NewTileColor(tileId, playerEntity);
-            playerEntity.Move();
+            playerEntity.Move(GetTile(tileId).transform.position);
         }
         else
         {
@@ -98,7 +116,7 @@ public class GameController : MonoBehaviour
                 _combatSimulator.IsEntityLoseBattle(playerEntity, enemyEntity) != true ||
                 _combatSimulator.IsEntityArcher(playerEntity)) return;
             NewTileColor(tileId, playerEntity);
-            playerEntity.Move();
+            playerEntity.Move(GetTile(tileId).transform.position);
             activePlayer.entityMoved = null;
 
         }
@@ -107,42 +125,41 @@ public class GameController : MonoBehaviour
     private void NewTileColor(Vector2 tileId, Entity entity)
     {
         var tile = GetTile(tileId);
-        entity.tile = tile;
+        entity.Position = tile.PositionTile;
         if (tile == null) return;
-        tile.tileData = tileSpawner.tilesColor.Find(x => x.tileColor == activePlayer.color);
+        tile.TileData = tileSpawner.tilesColor.Find(x => x.tileColor == activePlayer.color);
         tile.UpdateSprite();
     }
 
     private Tile GetTile(Vector2 position)
     {
-        return (from tile in _tiles from _tile in tile where position == _tile.positionTile select _tile).First();
+        return (from tile in _tiles from _tile in tile where position == _tile.PositionTile select _tile).First();
+    }
+    private Combatant GetCombatant(Vector2 position)
+    {
+        return (Combatant)entities.Find(x => x as Combatant&& x.Position == position);
     }
     private Entity GetEntity(Vector2 position)
     {
-        return entities.Find(x => x.tile.positionTile == position);
+        return entities.Find(x => x.Position == position);
     }
-    private Entity GetEntity(Tile tile)
-    {
-        return entities.Find(x => x.tile == tile);
-    }
-
     private bool IsColorsSame(Entity playerEntity, Entity enemyEntity)
     {
-        return enemyEntity.color != playerEntity.color;
+        return enemyEntity.Color != playerEntity.Color;
     }
     private bool IsColorsSame(Entity entity)
     {
-        return entity.color == activePlayer.color;
+        return entity.Color == activePlayer.color;
     }
     private bool IsColorsSame(Tile tile)
     {
-        return tile.tileData.tileColor == activePlayer.color;
+        return tile.TileData.tileColor == activePlayer.color;
     }
-    private bool IsEntityOnAttackDistance(Entity playerEntity,Vector2 tileId)
+    private bool IsEntityOnAttackDistance(Combatant playerEntity,Vector2 tileId)
     {
         return playerEntity.attackDistance.Contains(tileId);
     }
-    private bool IsEntityMoveDistance(Entity playerEntity,Vector2 tileId)
+    private bool IsEntityMoveDistance(Combatant playerEntity,Vector2 tileId)
     {
         return playerEntity.moveDistance.Contains(tileId);
     }

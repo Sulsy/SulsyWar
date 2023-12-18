@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3116798224413828980}
   - component: {fileID: 5120404234959699878}
-  - component: {fileID: 7526794176893942673}
+  - component: {fileID: 6980941995673643831}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7526794176893942673
+--- !u!114 &6980941995673643831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,16 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4361779662251500831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499a7c7251717145b97b8957e9fda88, type: 3}
+  m_Script: {fileID: 11500000, guid: 31fdc72c7f2d00b45bde51f53480f273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 8f807123863af4b49941dc70347fef8e, type: 2}
-  color: 0
-  id: 0
-  tile: {fileID: 0}
   moveDistance: []
   attackDistance: []
-  didAction: 0
-  power: 0
-  distanceDamage: 0
-  price: 10

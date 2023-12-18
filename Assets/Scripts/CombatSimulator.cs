@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class CombatSimulator
 {
-        public Entity winnerEntity;
-        public Entity loseEntity;
+        public Combatant winnerEntity;
+        public Combatant loseEntity;
         public GameController gameController;
 
     public CombatSimulator(GameController gameController)
@@ -15,15 +15,15 @@ public class CombatSimulator
         this.gameController = gameController;
     }
 
-    public bool? IsEntityLoseBattle(Entity playerEntity, Entity enemyEntity)
+     public bool? IsEntityLoseBattle(Combatant playerEntity, Combatant enemyEntity)
     {
-        playerEntity.EntityDidAction();
-        if (playerEntity.power > enemyEntity.power)
+       
+        if (playerEntity.Power > enemyEntity.Power)
         {
             PlayerEntityWinnerBattle(playerEntity,enemyEntity);
             return true;
         }
-        else if (playerEntity.power < enemyEntity.power)
+        else if (playerEntity.Power < enemyEntity.Power)
         {
             PlayerEntityLoseBattle(playerEntity,enemyEntity);
             return false;
@@ -34,35 +34,36 @@ public class CombatSimulator
             gameController.entities.Remove(enemyEntity);
             playerEntity.EntityDestroy();
             enemyEntity.EntityDestroy();
+            
             return null;
         }
     }
 
-    private void PlayerEntityLoseBattle(Entity playerEntity,Entity enemyEntity)
+    private void PlayerEntityLoseBattle(Combatant playerEntity,Combatant enemyEntity)
     {
         winnerEntity = enemyEntity;
         loseEntity = playerEntity;
-        winnerEntity.power -= loseEntity.power;
+        winnerEntity.Power -= loseEntity.Power;
         if (IsEntityArcher(playerEntity)&&!IsEntityPowerZero(winnerEntity)) return;
         gameController.entities.Remove(playerEntity);
         playerEntity.EntityDestroy();
     }
-    private void PlayerEntityWinnerBattle(Entity playerEntity,Entity enemyEntity)
+    private void PlayerEntityWinnerBattle(Combatant playerEntity,Combatant enemyEntity)
     {
         loseEntity = enemyEntity;
         winnerEntity = playerEntity;
-        loseEntity.power -= winnerEntity.power;
+        loseEntity.Power -= winnerEntity.Power;
         if (IsEntityArcher(playerEntity)&&!IsEntityPowerZero(loseEntity)) return;
         gameController.entities.Remove(enemyEntity);
         enemyEntity.EntityDestroy();
     }
-    public bool IsEntityArcher(Entity playerEntity)
+    public bool IsEntityArcher(Combatant playerEntity)
     {
-        return playerEntity.distanceDamage;
+        return playerEntity.DistanceDamage;
     }
 
-    private bool IsEntityPowerZero(Entity entity)
+    private bool IsEntityPowerZero(Combatant entity)
     {
-        return entity.power<=0;
+        return entity.Power<=0;
     }
 }

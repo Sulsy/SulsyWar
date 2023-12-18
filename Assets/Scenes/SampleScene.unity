@@ -399,6 +399,8 @@ MonoBehaviour:
   playersId: 0
   entityMoved: {fileID: 0}
   money: 50
+  reward: 0
+  spent: 0
 --- !u!4 &616886417
 Transform:
   m_ObjectHideFlags: 0
@@ -630,6 +632,8 @@ MonoBehaviour:
   playersId: 1
   entityMoved: {fileID: 0}
   money: 50
+  reward: 0
+  spent: 0
 --- !u!4 &1431877921
 Transform:
   m_ObjectHideFlags: 0
@@ -1112,9 +1116,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
+      propertyPath: entityDats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
       propertyPath: entityDats.Array.data[0]
       value: 
+      objectReference: {fileID: 11400000, guid: 8f807123863af4b49941dc70347fef8e, type: 2}
+    - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
+      propertyPath: entityDats.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
+      propertyPath: entityPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
+      propertyPath: entityPrefabs.Array.data[0]
+      value: 
       objectReference: {fileID: -1149207417830568016, guid: abadabf043d79934fb3b556417f65102, type: 3}
+    - target: {fileID: 9124176810067584747, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
+      propertyPath: entityPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 6980941995673643831, guid: a10ce06f22441ca459d67aee405b4be4, type: 3}
     - target: {fileID: 9124176810067584757, guid: 432749dbfa1ea4e44a713c4ebbeac3dd, type: 3}
       propertyPath: m_Name
       value: EntitySpawner
